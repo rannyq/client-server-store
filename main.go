@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+		"fmt"
+        "net/http"
+        "ContactInfo"
 )
 
 const port = ":7777"
@@ -16,24 +17,28 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	var str = r.Header.Get("")
 
+	StoreData()
+
+	fmt.Fprintf(w, "Stored!!!!\n")
+
 	fmt.Fprintf(w, str)
 }
 
 func StoreData() {
 
-	var storage Storage
+	var storage ContactInfo.Storage
 
-	storage = &FileStorage{}
+	storage = &ContactInfo.FileStorage{}
 
-	contactinfo := ContactInfo{
+	contactinfo := ContactInfo.ContactInfo{
 		ID:     "1",
-		Name:   "RannySue",
+		Name:   "Joe Smoe",
 		Street: "123 Doheny",
 		City:   "Dana Point",
 		Zip:    "92629",
 		Phone:  "3105555555",
 	}
-	storage.Add(contactinfo.ID, contactinfo)
+	storage.WriteFile(contactinfo.ID, contactinfo)
 }
 
 func main() {
