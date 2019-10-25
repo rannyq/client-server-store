@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-const port = ":8888"
+const port = ":7777"
 
 type handler int
 
