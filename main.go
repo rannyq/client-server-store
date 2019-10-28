@@ -46,7 +46,7 @@ func StoreData(contactinfo ContactInfo.ContactInfo) {
 
 	storage = &ContactInfo.FileStorage{}
 
-	storage.WriteFile(contactinfo.ID, contactinfo)
+	storage.WriteFile(fmt.Sprint(contactinfo.ID), contactinfo)
 }
 
 func main() {
