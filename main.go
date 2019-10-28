@@ -31,25 +31,19 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	err2 := json.Unmarshal(b, &ci)
 
+	fmt.Printf("Unmarhal: %s\n", b)
+
 	if err2 != nil {
-		panic(err2)
+		//panic(err2)
+		fmt.Printf("Panic!!!!: ", err2)
 	}
 
-	StoreData()
+	StoreData(ci)
 
 	fmt.Fprintf(w, "Wrote File and it took")
 }
 
-func StoreData() {
-
-	contactinfo := ContactInfo.ContactInfo{
-		"1",
-		"Joe Smoe",
-		"123 Doheny",
-		"Dana Point",
-		"92629",
-		"3105555555",
-	}
+func StoreData(contactinfo ContactInfo.ContactInfo) {
 
 	var storage ContactInfo.Storage
 
