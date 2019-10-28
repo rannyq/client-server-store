@@ -29,5 +29,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("%s said: %s after %s\n", *remote, bytes, time.Since(start))
+	fmt.Printf("%s said: %s %s\n", *remote, bytes, time.Since(start))
 }

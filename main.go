@@ -15,13 +15,14 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Starting server in port %s\n", port)
 	fmt.Fprintf(w, "Ranny did it!!!!\n")
 
-	var str = r.Header.Get("")
+	//var str =
+		r.Header.Get("")
 
 	StoreData()
 
-	fmt.Fprintf(w, "Stored!!!!\n")
+	fmt.Fprintf(w, "Wrote File and it took")
 
-	fmt.Fprintf(w, str)
+	//fmt.Fprintf(w, str)
 }
 
 func StoreData() {
