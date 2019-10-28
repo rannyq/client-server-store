@@ -44,16 +44,7 @@ func main() {
 
 	defer resp.Body.Close()
 
-	//read response from server
-	resp2, err := http.Get(*remote)
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer resp2.Body.Close()
-
-	bytes, err := ioutil.ReadAll(resp2.Body)
+	bytes, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)
