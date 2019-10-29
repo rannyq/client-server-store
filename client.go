@@ -30,15 +30,17 @@ func sendData(contactinfo ContactInfo.ContactInfo, remote *string) {
 		panic(err)
 	}
 
+	//make sure you close your resource
 	defer resp.Body.Close()
 
+	//read the response from server
 	bytes, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("%s said: %s %s\n", *remote, bytes, time.Since(start))
+	fmt.Printf("%s responded with: %s %s\n", *remote, bytes, time.Since(start))
 }
 
 func main() {
@@ -48,8 +50,10 @@ func main() {
 
 	flag.Parse()
 
+	//initiate slice of contacts
 	contacts := make([]ContactInfo.ContactInfo, 20)
 
+	//fill in the structs
 	for i := range contacts {
 		contacts[i].ID = i
 		contacts[i].Name = "Joe Poe"
@@ -57,9 +61,6 @@ func main() {
 		contacts[i].City = "Dana Point"
 		contacts[i].Zip = "92629"
 		contacts[i].Phone = "3105555555"
-	}
-
-	for i := range contacts {
-			sendData(contacts[i], remote)
+		sendData(contacts[i], remote)
 	}
 }

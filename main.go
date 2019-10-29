@@ -14,7 +14,7 @@ type handler int
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Printf("Starting server in port %s\n", port)
+	fmt.Printf("Got a http request on port %s\n", port)
 
 	b, err := ioutil.ReadAll(r.Body)
 
@@ -22,28 +22,31 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Printf("Got Json: %s\n", b)
+	if len(b) > 0 {
 
-	defer r.Body.Close()
+		fmt.Printf("Got Json: %s\n", b)
 
-	var ci ContactInfo.ContactInfo
+		defer r.Body.Close()
 
-	err2 := json.Unmarshal(b, &ci)
+		var ci ContactInfo.ContactInfo
 
-	if err2 != nil {
-		panic(err2)
+		err2 := json.Unmarshal(b, &ci)
+
+		if err2 != nil {
+			panic(err2)
+		}
+
+		StoreData(ci)
+
+		fmt.Fprintf(w, "Wrote File and it took")
+	} else {
+		fmt.Fprintf(w, "No Data")
 	}
-
-	StoreData(ci)
-
-	fmt.Fprintf(w, "Wrote File and it took")
 }
 
 func StoreData(contactinfo ContactInfo.ContactInfo) {
 
-	var storage ContactInfo.Storage
-
-	storage = &ContactInfo.FileStorage{}
+	storage := &ContactInfo.FileStorage{}
 
 	storage.WriteFile(fmt.Sprint(contactinfo.ID), contactinfo)
 }
@@ -51,6 +54,8 @@ func StoreData(contactinfo ContactInfo.ContactInfo) {
 func main() {
 
 	var h handler
+
+	fmt.Printf("Starting server in port %s\n", port)
 
 	err := http.ListenAndServe(port, h)
 
