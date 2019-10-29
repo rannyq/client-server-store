@@ -56,7 +56,7 @@ func main() {
 	//fill in the structs
 	for i := range contacts {
 		contacts[i].ID = i
-		contacts[i].Name = "Joe Poe"
+		contacts[i].Name = "Joe Smoe"
 		contacts[i].Street = "123 Doheny"
 		contacts[i].City = "Dana Point"
 		contacts[i].Zip = "92629"
