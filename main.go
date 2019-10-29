@@ -15,7 +15,6 @@ type handler int
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Starting server in port %s\n", port)
-	fmt.Fprintf(w, "Ranny did it!!!!\n")
 
 	b, err := ioutil.ReadAll(r.Body)
 

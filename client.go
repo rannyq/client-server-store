@@ -12,6 +12,34 @@ import (
 )
 
 const url = "http://localhost:7777"
+const contentType = "application/json"
+
+func sendData(contactinfo ContactInfo.ContactInfo, remote *string) {
+
+	b, err := json.Marshal(contactinfo)
+
+	fmt.Printf("%s\n", b)
+
+	//get current time
+	start := time.Now()
+
+	//post to URL with Json message
+	resp, err := http.Post(*remote, contentType, bytes2.NewBuffer(b))
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer resp.Body.Close()
+
+	bytes, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s said: %s %s\n", *remote, bytes, time.Since(start))
+}
 
 func main() {
 
@@ -20,41 +48,18 @@ func main() {
 
 	flag.Parse()
 
-	for i := 0; i < 10; i++ {
+	contacts := make([]ContactInfo.ContactInfo, 20)
 
-		id := i
-		//create json struct
-		contactinfo := ContactInfo.ContactInfo{
-			id,
-			"Joe Poe",
-			"123 Doheny",
-			"Dana Point",
-			"92629",
-			"3105555555",
-		}
+	for i := range contacts {
+		contacts[i].ID = i
+		contacts[i].Name = "Joe Poe"
+		contacts[i].Street = "123 Doheny"
+		contacts[i].City = "Dana Point"
+		contacts[i].Zip = "92629"
+		contacts[i].Phone = "3105555555"
+	}
 
-		b, err := json.Marshal(contactinfo)
-
-		fmt.Printf("%s\n", b)
-
-		//get current time
-		start := time.Now()
-
-		//post to URL with Json message
-		resp, err := http.Post(*remote, "application/json", bytes2.NewBuffer(b))
-
-		if err != nil {
-			panic(err)
-		}
-
-		defer resp.Body.Close()
-
-		bytes, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-
-		fmt.Printf("%s said: %s %s\n", *remote, bytes, time.Since(start))
+	for i := range contacts {
+			sendData(contacts[i], remote)
 	}
 }
