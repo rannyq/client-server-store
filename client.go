@@ -14,7 +14,7 @@ import (
 
 const url = "http://localhost:7777"
 const contentType = "application/json"
-const extension = ".json"
+const extension = ".txt"
 
 func check(e error) {
 	if e != nil {
@@ -80,7 +80,6 @@ func main() {
 
 			var contact ContactInfo.ContactInfo
 
-			//contact.ID = dat["ID"].(int)
 			contact.ID = int(dat["ID"].(float64))
 			contact.Name = dat["Name"].(string)
 			contact.Street = dat["Street"].(string)

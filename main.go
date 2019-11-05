@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"ContactInfo"
 )
@@ -50,7 +51,7 @@ func StoreData(contactinfo ContactInfo.ContactInfo) {
 
 	storage := &ContactInfo.FileStorage{}
 
-	storage.WriteFile(fmt.Sprint(contactinfo.ID), contactinfo)
+	storage.WriteFile(fmt.Sprint(rand.Intn(10000)), contactinfo)
 }
 
 func main() {
