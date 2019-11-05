@@ -56,6 +56,8 @@ func main() {
 
 	inputFiles, err := ioutil.ReadDir(".")
 
+	check (err)
+
 	fmt.Printf("Got this many files %s\n", len(inputFiles))
 
 	//cycle through all files in directory
@@ -71,28 +73,15 @@ func main() {
 			byt, err := ioutil.ReadFile(filename)
 			check(err)
 
-			var dat map[string]interface{}
+			var contactinfo ContactInfo.ContactInfo
 
-			err2 := json.Unmarshal(byt, &dat);
+			//create the map from json string
+			err2 := json.Unmarshal(byt, &contactinfo)
 			check(err2)
 
-			fmt.Println(dat)
-
-			var contact ContactInfo.ContactInfo
-
-			contact.ID = int(dat["ID"].(float64))
-			contact.Name = dat["Name"].(string)
-			contact.Street = dat["Street"].(string)
-			contact.City = dat["City"].(string)
-			contact.State = dat["State"].(string)
-			contact.Zip = dat["Zip"].(string)
-			contact.Phone = dat["Phone"].(string)
-
-			sendData(contact, remote)
+			sendData(contactinfo, remote)
 		} else{
-			fmt.Printf("Not a file we want to proess %s %d\n", filename, len(filename))
+			fmt.Printf("Not a file we want to process %s %d\n", filename, len(filename))
 		}
 	}
-
-	check(err)
 }
