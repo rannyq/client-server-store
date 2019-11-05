@@ -12,15 +12,19 @@ const port = ":7777"
 
 type handler int
 
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Got a http request on port %s\n", port)
 
 	b, err := ioutil.ReadAll(r.Body)
 
-	if err != nil {
-		panic(err)
-	}
+	check(err)
 
 	if len(b) > 0 {
 
@@ -32,9 +36,7 @@ func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		err2 := json.Unmarshal(b, &ci)
 
-		if err2 != nil {
-			panic(err2)
-		}
+		check(err2)
 
 		StoreData(ci)
 
@@ -59,7 +61,6 @@ func main() {
 
 	err := http.ListenAndServe(port, h)
 
-	if err != nil {
-		panic(err)
-	}
+	check(err)
+
 }
